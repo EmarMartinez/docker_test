@@ -40,8 +40,8 @@ public class Student {
     @Column(name = "id_student")
     private String id_student;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(fetch=FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id")
     Persona persona;
 
     int num_hours_week;
@@ -80,4 +80,13 @@ public class Student {
         return studentOutputDtoSimple;
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id_student='" + id_student + '\'' +
+                ", num_hours_week=" + num_hours_week +
+                ", comments='" + comments + '\'' +
+                ", branch='" + branch + '\'' +
+                '}';
+    }
 }

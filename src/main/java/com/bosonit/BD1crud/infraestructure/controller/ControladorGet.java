@@ -26,7 +26,7 @@ public class ControladorGet {
     StudentServiceImpl studentServiceImpl;
 
     @GetMapping("id/{id}")
-    public PersonaOutputDto buscarPorId(@PathVariable int id) {
+    public PersonaOutputDto buscarPorId(@PathVariable String id) {
         try {
             personaServiceImpl.buscarPorId(String.valueOf(id));
         }

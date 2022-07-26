@@ -46,6 +46,21 @@ public class Persona {
     private String imagen_url;
     private Date termination_date;
 
+    @OneToOne(mappedBy = "persona", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private Student student;
+
+    public void setStudent(Student studentTest) {
+        if(studentTest == null) {
+            if(this.student != null) {
+                this.student.setPersona(null);
+            }
+        }
+        else {
+            studentTest.setPersona(this);
+        }
+        this.student = studentTest;
+    }
+
     public void Validador() throws Exception{
 
         if(usuario == null || usuario.length()<6 || usuario.length() > 10 )
@@ -121,4 +136,15 @@ public class Persona {
         return personaOutputDto;
     }
 
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "id='" + id + '\'' +
+                ", usuario='" + usuario + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", company_email='" + company_email + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

@@ -41,7 +41,7 @@ public class PersonaServiceImpl implements PersonaService{
     public PersonaOutputDto buscarPorId(String id) {
 
             Persona persona = new Persona();
-            return persona.PersonaToDto(personaJpa.findById(Integer.valueOf(id)).get());
+            return persona.PersonaToDto(personaJpa.findById(id).get());
 
     }
 
@@ -65,7 +65,7 @@ public class PersonaServiceImpl implements PersonaService{
     @Override
     public PersonaOutputDto modificarPorId(String id, PersonaInputDto personaInputDto) {
 
-            personaJpa.findById(Integer.valueOf(id)).get();
+            personaJpa.findById(id).get();
             try {
             Persona persona = new Persona();
             Persona personaMod = persona.DtoToPersona(personaInputDto);
@@ -84,7 +84,7 @@ public class PersonaServiceImpl implements PersonaService{
     @Override
     public void borrarPorId(String id) {
 
-            Persona persona = personaJpa.findById(Integer.valueOf(id)).get();
+            Persona persona = personaJpa.findById(id).get();
             personaJpa.delete(persona);
     }
 
