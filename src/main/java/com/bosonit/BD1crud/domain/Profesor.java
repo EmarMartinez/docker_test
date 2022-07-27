@@ -12,8 +12,8 @@ public class Profesor {
     @GeneratedValue
     String id_profesor;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(fetch=FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id")
     Persona persona;
 
     String comments;

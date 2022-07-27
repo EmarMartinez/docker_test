@@ -3,6 +3,7 @@ package com.bosonit.BD1crud.domain;
 import com.bosonit.BD1crud.autoincrementales.PersonaSequenceIdGenerator;
 import com.bosonit.BD1crud.autoincrementales.StudentSequenceIdGenerator;
 import com.bosonit.BD1crud.infraestructure.controller.dto.input.StudentInputDto;
+import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDtoSimple;
 import com.bosonit.BD1crud.infraestructure.repository.PersonaJpa;
 import com.bosonit.BD1crud.infraestructure.repository.StudentJpa;
@@ -76,8 +77,33 @@ public class Student {
         studentOutputDtoSimple.setBranch(this.getBranch());
         studentOutputDtoSimple.setComments(this.getComments());
         studentOutputDtoSimple.setNum_hours_week(this.getNum_hours_week());
+        studentOutputDtoSimple.setId_persona(this.persona.getId());
+        System.out.println("Hola desde student DTO simple");
 
         return studentOutputDtoSimple;
+    }
+    public StudentOutputDto StudentToOutputDto(Student student) {
+
+        StudentOutputDto studentOutputDto = new StudentOutputDto();
+        studentOutputDto.setId(this.getId_student());
+        studentOutputDto.setBranch(this.getBranch());
+        studentOutputDto.setComments(this.getComments());
+        studentOutputDto.setNum_hours_week(this.getNum_hours_week());
+        studentOutputDto.setId_persona(this.persona.getId());
+        System.out.println("Hola desde student DTO FULL");
+
+        studentOutputDto.setUsuario(this.persona.getUsuario());
+        studentOutputDto.setPassword(this.persona.getPassword());
+        studentOutputDto.setName(this.persona.getName());
+        studentOutputDto.setSurname(this.persona.getSurname());
+        studentOutputDto.setCompany_email(this.persona.getCompany_email());
+        studentOutputDto.setPersonal_email(this.persona.getPersonal_email());
+        studentOutputDto.setCity(this.persona.getCity());
+        studentOutputDto.setActive(this.persona.isActive());
+        studentOutputDto.setCreated_date(this.persona.getCreated_date());
+        studentOutputDto.setImagen_url(this.persona.getImagen_url());
+        studentOutputDto.setTermination_date(this.persona.getTermination_date());
+        return studentOutputDto;
     }
 
     @Override

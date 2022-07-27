@@ -3,18 +3,17 @@ package com.bosonit.BD1crud.infraestructure.controller;
 import com.bosonit.BD1crud.application.persona.PersonaServiceImpl;
 import com.bosonit.BD1crud.application.student.StudentServiceImpl;
 import com.bosonit.BD1crud.exceptions.IdNoEncontrada;
+import com.bosonit.BD1crud.exceptions.UnprocesableException;
 import com.bosonit.BD1crud.infraestructure.controller.dto.input.StudentInputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.PersonaOutputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDtoSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 public class ControladorGet {
@@ -49,6 +48,30 @@ public class ControladorGet {
     public ResponseEntity<List<PersonaOutputDto>> listaCompleta() {
 
         return personaServiceImpl.buscarTodos();
+    }
+
+
+    @GetMapping("estudiante/{id}")
+    public Object getStudent(@PathVariable String id, @RequestParam(required = false, defaultValue = "simple") String outputType) {
+    try {
+        if (outputType.equals("full")) {
+            return studentServiceImpl.getStudentFull(id);
+        }
+        else {
+            return studentServiceImpl.getStudent(id);
+        }
+    }
+    catch(Exception e) {
+
+        throw new IdNoEncontrada("No se encontro la ID");
+
+        }
+    }
+
+    @GetMapping("estudiante/entradas")
+    public List<StudentOutputDtoSimple> mostrarEstudiantes() {
+
+        return studentServiceImpl.mostrarEstudiantes();
     }
 
 

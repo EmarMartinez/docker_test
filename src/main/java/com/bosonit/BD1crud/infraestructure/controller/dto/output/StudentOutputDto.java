@@ -5,11 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class StudentOutputDtoSimple {
+@NoArgsConstructor
+public class StudentOutputDto {
     String id_persona;
     String id;
     int num_hours_week;
@@ -17,4 +18,16 @@ public class StudentOutputDtoSimple {
     String id_profesor;
     String branch;
     List<Estudiante_Asignatura> estudios;
+
+    String usuario;
+    String password;
+    String name;
+    String surname;
+    String company_email;
+    String personal_email;
+    String city;
+    boolean active;
+    Date created_date;
+    String imagen_url;
+    Date termination_date;
 }

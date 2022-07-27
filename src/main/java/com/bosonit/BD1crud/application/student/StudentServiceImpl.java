@@ -3,12 +3,16 @@ package com.bosonit.BD1crud.application.student;
 import com.bosonit.BD1crud.domain.Persona;
 import com.bosonit.BD1crud.domain.Student;
 import com.bosonit.BD1crud.exceptions.UnprocesableException;
+import com.bosonit.BD1crud.infraestructure.controller.dto.input.PersonaInputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.input.StudentInputDto;
+import com.bosonit.BD1crud.infraestructure.controller.dto.output.PersonaOutputDto;
+import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDtoSimple;
 import com.bosonit.BD1crud.infraestructure.repository.PersonaJpa;
 import com.bosonit.BD1crud.infraestructure.repository.StudentJpa;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,4 +53,47 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentOutputDtoSimple> studentList() {
         return null;
     }
+
+    @Override
+    public StudentOutputDtoSimple getStudent(String id) {
+        Student student;
+        student = studentJpa.findById(id).get();
+        StudentOutputDtoSimple studentOutputDtoSimple;
+        studentOutputDtoSimple = student.StudentToOutputDtoSimple(student);
+        return studentOutputDtoSimple;
+    }
+    @Override
+    public StudentOutputDto getStudentFull(String id) {
+        Student student;
+        student = studentJpa.findById(id).get();
+        StudentOutputDto studentOutputDto;
+        studentOutputDto = student.StudentToOutputDto(student);
+        return studentOutputDto;
+    }
+
+    @Override
+    public StudentOutputDtoSimple modificarEstudiantePorId(String id, StudentInputDto studentInputDto) {
+
+        Student studentMod = studentJpa.findById(id).get();
+        studentMod.StudentInputDto(studentInputDto);
+        studentJpa.save(studentMod);
+        return studentMod.StudentToOutputDtoSimple(studentMod);
+
+    }
+    @Override
+    public void borrarEstudiantePorId(String id) {
+
+        studentJpa.delete(studentJpa.findById(id).get());
+    }
+
+    @Override
+    public List<StudentOutputDtoSimple> mostrarEstudiantes() {
+
+            List<Student> listaCompleta;
+            listaCompleta = studentJpa.findAll().stream().toList();
+            return  listaCompleta.stream().map(n->n.StudentToOutputDtoSimple(n)).toList();
+
+    }
+
+
 }
