@@ -48,18 +48,15 @@ public class PersonaServiceImpl implements PersonaService{
     @Override
     public ResponseEntity<List<PersonaOutputDto>> buscarPorNombre(String nombre) {
 
-        List<Persona> listaCoincidencias;
-        listaCoincidencias = personaJpa.findAll().stream().filter(n-> n.getName().equalsIgnoreCase(nombre)).toList();
-        return new ResponseEntity<>( listaCoincidencias.stream().map(n->n.PersonaToDto(n)).toList(),HttpStatus.OK);
+        return new ResponseEntity<>( personaJpa.buscarPersonasPorNombre(nombre).stream().map(n->n.PersonaToDto(n)).toList(),HttpStatus.OK);
 
 
     }
 
     @Override
     public ResponseEntity<List<PersonaOutputDto>> buscarTodos() {
-        List<Persona> listaCompleta;
-        listaCompleta = personaJpa.findAll().stream().toList();
-        return new ResponseEntity<>(listaCompleta.stream().map(n->n.PersonaToDto(n)).toList(),HttpStatus.OK);
+
+        return new ResponseEntity<>(personaJpa.findAll().stream().map(n->n.PersonaToDto(n)).toList(),HttpStatus.OK);
     }
 
     @Override
@@ -84,8 +81,7 @@ public class PersonaServiceImpl implements PersonaService{
     @Override
     public void borrarPorId(String id) {
 
-            Persona persona = personaJpa.findById(id).get();
-            personaJpa.delete(persona);
+            personaJpa.delete(personaJpa.findById(id).get());
     }
 
 

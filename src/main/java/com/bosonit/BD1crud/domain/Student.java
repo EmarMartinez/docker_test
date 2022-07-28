@@ -1,24 +1,26 @@
 package com.bosonit.BD1crud.domain;
 
-import com.bosonit.BD1crud.autoincrementales.PersonaSequenceIdGenerator;
 import com.bosonit.BD1crud.autoincrementales.StudentSequenceIdGenerator;
 import com.bosonit.BD1crud.infraestructure.controller.dto.input.StudentInputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDto;
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDtoSimple;
-import com.bosonit.BD1crud.infraestructure.repository.PersonaJpa;
-import com.bosonit.BD1crud.infraestructure.repository.StudentJpa;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.lang.Integer.parseInt;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
 
     @Id
@@ -49,16 +51,15 @@ public class Student {
 
     String comments;
 
-    @ManyToOne
-    @JoinColumn(name = "id_profesor")
-    Profesor profesor;
-
     String branch;
 
-    @OneToMany
-    List<Estudiante_Asignatura> estudios;
 
-
+    @JsonIgnore
+    @ManyToMany(mappedBy="estudiantesApuntados")
+    private Set<Asignatura> asignaturasApuntadas = new HashSet<>();
+    public Set<Asignatura> getAsignaturasApuntadas() {
+        return asignaturasApuntadas;
+    }
 
     public void StudentInputDto(StudentInputDto studentInputDto) {
 
@@ -78,6 +79,7 @@ public class Student {
         studentOutputDtoSimple.setComments(this.getComments());
         studentOutputDtoSimple.setNum_hours_week(this.getNum_hours_week());
         studentOutputDtoSimple.setId_persona(this.persona.getId());
+        studentOutputDtoSimple.setAsignaturas(this.asignaturasApuntadas);
         System.out.println("Hola desde student DTO simple");
 
         return studentOutputDtoSimple;

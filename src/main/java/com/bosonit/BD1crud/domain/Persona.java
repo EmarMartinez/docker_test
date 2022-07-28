@@ -50,16 +50,38 @@ public class Persona {
     private Student student;
 
     public void setStudent(Student studentTest) {
-        if(studentTest == null) {
-            if(this.student != null) {
-                this.student.setPersona(null);
+        if(this.profesor == null) {
+            if (studentTest == null) {
+                if (this.student != null) {
+                    this.student.setPersona(null);
+                }
+            } else {
+                studentTest.setPersona(this);
             }
+            this.student = studentTest;
         }
         else {
-            studentTest.setPersona(this);
+            throw new UnprocesableException("No puede haber un Estudiante que a la vez sea profesor");
         }
-        this.student = studentTest;
     }
+    @OneToOne(mappedBy = "persona", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private Profesor profesor;
+    public void setProfesor(Profesor profesorTest) {
+        if (this.student == null) {
+            if (profesorTest == null) {
+                if (this.profesor != null) {
+                    this.profesor.setPersona(null);
+                }
+            } else {
+                profesorTest.setPersona(this);
+            }
+            this.profesor = profesorTest;
+        }
+        else {
+            throw new UnprocesableException("No puede haber un profesor que sea a la vez un alumno");
+        }
+    }
+
 
     public void Validador() throws Exception{
 
