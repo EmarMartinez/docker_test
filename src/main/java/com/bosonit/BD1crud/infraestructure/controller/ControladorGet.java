@@ -13,8 +13,10 @@ import com.bosonit.BD1crud.infraestructure.controller.dto.output.ProfesorOutputD
 import com.bosonit.BD1crud.infraestructure.controller.dto.output.StudentOutputDtoSimple;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -114,6 +116,19 @@ public class ControladorGet {
     @GetMapping("asignatura/estudiante/{idEstudiante}")
     public List<AsignaturaOutputDto> buscarAsignaturasEstudiante(@PathVariable String idEstudiante) {
         return studentServiceImpl.asignaturasEstudiante(idEstudiante);
+    }
+
+    @GetMapping("profesor/profesor/{id}")
+    public ProfesorOutputDtoSimple getProfesorRestTemplate(@PathVariable String id) {
+        String url = "http://localhost:8080/profesor/" + id;
+        ResponseEntity<ProfesorOutputDtoSimple> responseEntity = new RestTemplate().getForEntity(url, ProfesorOutputDtoSimple.class);
+        if(responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            return responseEntity.getBody();
+        }
+        else {
+            throw new RuntimeException("El server no respondió OK");
+        }
     }
 
 }

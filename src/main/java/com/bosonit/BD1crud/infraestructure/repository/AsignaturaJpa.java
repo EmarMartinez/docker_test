@@ -11,6 +11,5 @@ import java.util.List;
 public interface AsignaturaJpa extends JpaRepository<Asignatura, Integer> {
     @Query("SELECT a FROM Asignatura a WHERE a.asignatura = ?1 ")
     List<Asignatura> buscarAsignaturaPorNombre(String nombre);
-//    @Query("SELECT a FROM Asignaturas_Alumno a WHERE a.STUDENT_ID = ?1")
-//    List<>
+
 }
